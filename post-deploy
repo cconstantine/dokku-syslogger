@@ -7,5 +7,5 @@ PIDFILE=$DOKKU_ROOT/$APP/syslogger.pid
 start-stop-daemon -K --oknodo -p $PIDFILE
 
 # Start the logging!
-start-stop-daemon -S -p $PIDFILE sh -c "dokku logs $APP -t | logger -t $APP -p local7.info"
+start-stop-daemon -S -p $PIDFILE --startas  sh -- -c "dokku logs $APP -t | logger -t $APP -p local7.info"
 
