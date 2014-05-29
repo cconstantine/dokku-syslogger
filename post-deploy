@@ -4,7 +4,7 @@ APP="$1"; PORT="$2"
 PIDFILE=$DOKKU_ROOT/$APP/syslogger.pid
 
 # Make sure there isn't a logger already running
-start-stop-daemon -K -p $PIDFILE --make-pidfile --background --oknodo
+start-stop-daemon -K -p $PIDFILE --make-pidfile --oknodo
 
 # Start the logging!
 start-stop-daemon -S -p $PIDFILE --make-pidfile --background --startas  /bin/sh -- -c "dokku logs $APP -t | logger -t $APP -p local7.info"
