@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 set -eo pipefail; [[ $DOKKU_TRACE ]] && set -x
 APP="$1"; PORT="$2"
+PIDFILE=$DOKKU_ROOT/$APP/syslogger.pid
 
+# Make sure there isn't a logger already running
+start-stop-daemon -K --oknodo -p $PIDFILE
 
-dokku logs $APP -t | logger -t $APP -p local7.info &
+# Start the logging!
+start-stop-daemon -S -p $PIDFILE --startas sh -- -c "dokku logs $APP -t | logger -t $APP -p local7.info"
 
